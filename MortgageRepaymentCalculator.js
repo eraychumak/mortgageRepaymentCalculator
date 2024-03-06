@@ -143,6 +143,18 @@ function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTer
 const template = document.createElement("template");
 
 template.innerHTML = `
+  <style>
+    :host {
+      display: block;
+    }
+    :host[hidden] {
+      display: none;
+    }
+    .chart-container {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
   <header>
     <h1 id="test">Mortgage repayment calculator</h1>
     <p>Visualise it with a graph</p>
@@ -198,6 +210,8 @@ template.innerHTML = `
     </section>
     <button type="submit">Calculate</button>
   </form>
+  <section id="chart" class="chart-container">
+  </section>
 `;
 
 class MortgageRepaymentCalculator extends HTMLElement {
@@ -213,7 +227,9 @@ class MortgageRepaymentCalculator extends HTMLElement {
 
   connectedCallback() {
     const form = this.shadowRoot.getElementById("clientData");
-    form.addEventListener("submit", this.onSubmit);
+    form.addEventListener("submit", (e) => {
+      this.onSubmit(e)
+    });
 
     const quickSelectBtns = this.shadowRoot.querySelectorAll(".btnUpdateMortgageTerm");
 
@@ -228,13 +244,42 @@ class MortgageRepaymentCalculator extends HTMLElement {
   onSubmit(e) {
     e.preventDefault();
 
-    const data = new FormData(this);
+    const form = this.shadowRoot.getElementById("clientData");
+    const data = new FormData(form);
 
     localStorage.setItem("mrc-housePrice", data.get("housePrice"));
     localStorage.setItem("mrc-deposit", data.get("deposit"));
     localStorage.setItem("mrc-interestRate", data.get("interestRate"));
     localStorage.setItem("mrc-mortgageTerm", data.get("mortgageTerm"));
     localStorage.setItem("mrc-consent", data.get("consent"));
+
+    this.generateGraph();
+  }
+
+  generateGraph() {
+    const housePrice = parseFloat(localStorage.getItem("mrc-housePrice"));
+    const deposit = parseFloat(localStorage.getItem("mrc-deposit"));
+    const annualInterest = parseFloat(localStorage.getItem("mrc-interestRate")) / 100;
+
+    const termYears = parseFloat(localStorage.getItem("mrc-mortgageTerm"));
+
+    const plotData = calculateRepaymentPlan(housePrice, deposit, annualInterest, termYears);
+
+    const graphContainer = this.shadowRoot.getElementById("chart");
+    const chart = LightweightCharts.createChart(graphContainer);
+
+    const seriesInterest = chart.addAreaSeries({ lineColor: '#2962FF', topColor: '#2962FF', bottomColor: 'rgba(41, 98, 255, 0.28)' });
+
+    seriesInterest.setData(plotData.months.map(month => {
+      console.log(month.time);
+
+      return {
+        value: month.interest,
+        time: month.time
+      }
+    }));
+
+    chart.timeScale().fitContent();
   }
 }
 
