@@ -13,14 +13,26 @@ let totalInterestPaidPennies = 0;
 
 const monthlyPaymentPennies = Math.trunc(balancePennies / termMonths);
 
-console.log("Starting Balance:", balance);
-console.log("Monthly repayment:", monthlyPayment);
+const plotData = {
+  startingBalance: balancePennies / 100,
+  principalMonthlyPayment: monthlyPaymentPennies / 100,
+  totalInterestPaid: 0,
+  months: []
+}
 
+// generate plotting data for each month
 for (let i = 0; i < termMonths; i++) {
   const interestThisMonthPennies = Math.trunc(
     Math.trunc(balancePennies * interestAnnual) / 12
   );
 
+  const currentMonth = {
+    month: i,
+    balance: balancePennies / 100,
+    principal: monthlyPaymentPennies / 100,
+    interest: interestThisMonthPennies / 100,
+    paymentTotal: (monthlyPaymentPennies + interestThisMonthPennies) / 100
+  }
 
   // last month, principal payment should be the remaining balance
   if (i === termMonths - 1) {
@@ -42,3 +54,6 @@ for (let i = 0; i < termMonths; i++) {
 
   balancePennies -= monthlyPaymentPennies;
 }
+
+// after iterations to avoid decimal calculations.
+plotData.totalInterestPaid /= 100;
