@@ -1,5 +1,17 @@
 import calcMortgageRepayment from "./libs/calcMortgagePayment.js";
 
+let htmlTemplate = `<template>Failed to load component</template>`;
+
+const parser = new DOMParser();
+
+try {
+  const req = await fetch("template.html");
+  const html = await req.text();
+
+  htmlTemplate = parser.parseFromString(html, 'text/html').querySelector('template');
+} catch(e) {
+  console.error("ERROR:", e);
+}
 
 /**
  * A web component widget to calculate
@@ -21,7 +33,7 @@ class MortgageRepaymentCalculator extends HTMLElement {
       mode: "open"
     });
 
-    shadow.append(template.content.cloneNode(true));
+    shadow.append(htmlTemplate.content.cloneNode(true));
   }
 
   connectedCallback() {
