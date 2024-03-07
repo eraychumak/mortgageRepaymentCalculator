@@ -1,27 +1,3 @@
-/*******************************************************************
- *
- * @author Eray Chumak
- *
- * This is a web component for a mortgage
- * repayment calculator.
- *
- * A config object has been created for
- * you to customise below.
- *
- * @example
- * In your HTML:
- * <head>
- *   <script defer src="./MortgageRepaymentCalculator.js"></script>
- * </head>
- * <body>
- *   <mortgage-repayment-calculator></mortgage-repayment-calculator>
- * </body>
- *
-/******************************************************************/
-
-
-
-
 // ? SECTION - START: Customise component widget
 
 const config = {
@@ -84,7 +60,7 @@ const config = {
  *
  * @returns {PaymentPlan} The payment plan to be plotted on a graph
  */
-function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTerm) {
+function calcMortgageRepayment(housePrice, deposit, interestAnnual, mortgageTerm) {
   const housePricePennies = Math.trunc(housePrice * 100);
   const depositPennies = Math.trunc(deposit * 100);
 
@@ -321,7 +297,7 @@ class MortgageRepaymentCalculator extends HTMLElement {
 
     const termYears = parseFloat(localStorage.getItem("mrc-mortgageTerm"));
 
-    const plotData = calculateRepaymentPlan(housePrice, deposit, annualInterest, termYears);
+    const plotData = calcMortgageRepayment(housePrice, deposit, annualInterest, termYears);
 
     const chartContainerBalance = this.shadowRoot.getElementById("chartBalance");
     const chartBalance = LightweightCharts.createChart(chartContainerBalance);
