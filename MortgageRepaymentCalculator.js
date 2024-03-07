@@ -112,6 +112,7 @@ function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTer
     const currentMonth = {
       month: i,
       time: `${currentYear}-${monthNum}-${today[2]}`,
+      interestPaid: totalInterestPaidPennies / 100,
       balance: balancePennies / 100,
       principal: monthlyPaymentPennies / 100,
       interest: interestThisMonthPennies / 100,
