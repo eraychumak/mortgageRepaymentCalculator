@@ -19,6 +19,11 @@
  *
 /******************************************************************/
 
+
+
+
+// ? SECTION - START: Customise component widget
+
 const config = {
   hints: {
     housePrice: "This is the total cost of the house you are buying or the amount that is left on your mortgage.",
@@ -28,12 +33,20 @@ const config = {
   }
 }
 
-// ------------------------------------------
+// ? SECTION - END
+
+
+
+
+// ! ----------------------------------------
 // ! The code below is not meant to be edited
 // ! for customisation, edit at your own risk
-// ------------------------------------------
+// ! ----------------------------------------
 
-// ? Type Definitions - START
+
+
+
+// ? SECTION - START: Type Definitions
 
 /**
  * @typedef {Object} PaymentMonth
@@ -55,7 +68,10 @@ const config = {
  * @property {Array<PaymentMonth>} months - Collection of months spanning the mortgage term.
  */
 
-// ? Type Definitions - END
+// ? SECTION - END
+
+
+
 
 /**
  * Calculates mortgage repayment plan and
@@ -85,7 +101,7 @@ function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTer
     principalMonthlyPayment: monthlyPaymentPennies / 100,
     totalInterestPaid: 0,
     months: []
-  }
+  };
 
   // plotting data requires time in format: yyyy-mm-dd
   const today = new Date().toISOString().split("T")[0].split("-");
@@ -150,6 +166,11 @@ function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTer
 
   return plotData;
 }
+
+
+
+
+// ? SECTION - START: HTML Template
 
 const template = document.createElement("template");
 
@@ -235,6 +256,21 @@ template.innerHTML = `
   </section>
 `;
 
+// ? SECTION - END
+
+
+/**
+ * A web component widget to calculate
+ * mortgate repayments.
+ *
+ * @example
+ * <head>
+ *   <script defer src="./MortgageRepaymentCalculator.js"></script>
+ * </head>
+ * <body>
+ *   <mortgage-repayment-calculator></mortgage-repayment-calculator>
+ * </body>
+ */
 class MortgageRepaymentCalculator extends HTMLElement {
   constructor() {
     super();
@@ -248,6 +284,7 @@ class MortgageRepaymentCalculator extends HTMLElement {
 
   connectedCallback() {
     const form = this.shadowRoot.getElementById("clientData");
+
     form.addEventListener("submit", (e) => {
       this.onSubmit(e)
     });
@@ -375,4 +412,5 @@ class MortgageRepaymentCalculator extends HTMLElement {
   }
 }
 
+// web component HTML syntax definition
 customElements.define("mortgage-repayment-calculator", MortgageRepaymentCalculator);
