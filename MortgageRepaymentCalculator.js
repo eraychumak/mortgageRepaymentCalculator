@@ -230,6 +230,8 @@ template.innerHTML = `
     </article>
     <article id="chartPayments" class="chart-container">
     </article>
+    <button>Edit my mortgage</button>
+    <button>Print graph</button>
   </section>
 `;
 
