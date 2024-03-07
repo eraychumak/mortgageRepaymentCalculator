@@ -125,6 +125,12 @@ function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTer
       currentMonth.paymentTotal = (balancePennies + interestThisMonthPennies) / 100;
     }
 
+    // mortgage finished
+    if (i === termMonths) {
+      currentMonth.principal = 0;
+      currentMonth.paymentTotal = 0;
+    }
+
     plotData.months.push(currentMonth);
     plotData.totalInterestPaid += interestThisMonthPennies;
 
