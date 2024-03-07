@@ -221,7 +221,13 @@ template.innerHTML = `
     </section>
     <button type="submit">Calculate</button>
   </form>
-  <section id="chart" class="chart-container">
+  <section>
+    <nav>
+      <button>Balance</button>
+      <button>Payments</button>
+    </nav>
+    <article id="chartBalance" class="chart-container">
+    </article>
   </section>
 `;
 
@@ -276,10 +282,45 @@ class MortgageRepaymentCalculator extends HTMLElement {
 
     const plotData = calculateRepaymentPlan(housePrice, deposit, annualInterest, termYears);
 
-    const graphContainer = this.shadowRoot.getElementById("chart");
-    const chart = LightweightCharts.createChart(graphContainer);
+    const chartContainerBalance = this.shadowRoot.getElementById("chartBalance");
+    const chartBalance = LightweightCharts.createChart(chartContainerBalance);
 
-    const seriesInterest = chart.addAreaSeries({ lineColor: '#2962FF', topColor: '#2962FF', bottomColor: 'rgba(41, 98, 255, 0.28)' });
+    const formatPrice = Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+    }).format;
+
+    chartBalance.applyOptions({
+      localization: {
+        priceFormatter: formatPrice,
+      },
+    });
+
+    const seriesInterestPaid = chartBalance.addLineSeries({
+      title: "Total interest paid",
+      color: "#465ec3"
+    });
+
+    seriesInterestPaid.setData(plotData.months.map((month, i) => {
+      return {
+        value: month.interestPaid,
+        time: month.time
+      }
+    }));
+
+    const seriesBalance = chartBalance.addLineSeries({
+      title: "Mortgage balance",
+      color: "#f16e51"
+    });
+
+    seriesBalance.setData(plotData.months.map(month => {
+      return {
+        value: month.balance,
+        time: month.time
+      }
+    }));
+
+    chartBalance.timeScale().fitContent();
 
     seriesInterest.setData(plotData.months.map(month => {
       console.log(month.time);
