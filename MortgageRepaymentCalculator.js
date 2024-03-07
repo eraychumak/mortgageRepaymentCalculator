@@ -91,8 +91,13 @@ function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTer
   const today = new Date().toISOString().split('T')[0].split("-");
   let currentYear = parseInt(today[0]);
 
-  // generate plotting data for each month
-  for (let i = 0; i < termMonths; i++) {
+  /*
+    generates plotting data for each month.
+    <= is used instead of < adding extra
+    month after mortgage term ends to show
+    zero balance (final numbers).
+  */
+  for (let i = 0; i <= termMonths; i++) {
     const monthNum = (i % 12) + 1;
 
     // check and update year because months continue past 12.
