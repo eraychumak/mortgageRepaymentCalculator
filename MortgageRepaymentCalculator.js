@@ -228,6 +228,8 @@ template.innerHTML = `
     </nav>
     <article id="chartBalance" class="chart-container">
     </article>
+    <article id="chartPayments" class="chart-container">
+    </article>
   </section>
 `;
 
@@ -322,16 +324,52 @@ class MortgageRepaymentCalculator extends HTMLElement {
 
     chartBalance.timeScale().fitContent();
 
-    seriesInterest.setData(plotData.months.map(month => {
-      console.log(month.time);
+    const chartContainerPayments = this.shadowRoot.getElementById("chartPayments");
+    const chartPayments = LightweightCharts.createChart(chartContainerPayments);
 
+    chartPayments.applyOptions({
+      localization: {
+        priceFormatter: formatPrice,
+      },
+    });
+
+    const seriesTotal = chartPayments.addHistogramSeries({
+      title: "Total payment",
+      color: "#465ec3"
+    });
+
+    seriesTotal.setData(plotData.months.map(month => {
+      return {
+        value: month.paymentTotal,
+        time: month.time
+      }
+    }));
+
+    const seriesPrincipal = chartPayments.addHistogramSeries({
+      title: "Principal payment",
+      color: "#f9c5b9"
+    });
+
+    seriesPrincipal.setData(plotData.months.map(month => {
+      return {
+        value: month.principal,
+        time: month.time
+      }
+    }));
+
+    const seriesInterest = chartPayments.addHistogramSeries({
+      title: "Interest payment",
+      color: "#f16e51"
+    });
+
+    seriesInterest.setData(plotData.months.map(month => {
       return {
         value: month.interest,
         time: month.time
       }
     }));
 
-    chart.timeScale().fitContent();
+    chartPayments.timeScale().fitContent();
   }
 }
 
