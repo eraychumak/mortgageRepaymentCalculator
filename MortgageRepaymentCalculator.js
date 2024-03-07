@@ -139,8 +139,7 @@ function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTer
     // last month
     if (i === termMonths - 1) {
       balancePennies -= balancePennies;
-      // no iterations after this, therefore break instead of continue.
-      break;
+      continue;
     }
 
     balancePennies -= monthlyPaymentPennies;
