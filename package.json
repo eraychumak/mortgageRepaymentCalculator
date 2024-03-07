@@ -1,0 +1,21 @@
+{
+  "name": "mortgage-repayment-calculator",
+  "version": "1.0.0",
+  "description": "A web component widget calculating mortgage repayment plan and visualising the breakdown with a graph",
+  "main": "MortgageRepaymentCalculator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/eraychumak/mortgageRepaymentCalculator.git"
+  },
+  "homepage": "https://github.com/eraychumak/mortgageRepaymentCalculator",
+  "keywords": [
+    "web component",
+    "component",
+    "custom element"
+  ],
+  "author": "Eray Chumak",
+  "license": "ISC"
+}
