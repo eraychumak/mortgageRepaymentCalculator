@@ -88,7 +88,7 @@ function calculateRepaymentPlan(housePrice, deposit, interestAnnual, mortgageTer
   }
 
   // plotting data requires time in format: yyyy-mm-dd
-  const today = new Date().toISOString().split('T')[0].split("-");
+  const today = new Date().toISOString().split("T")[0].split("-");
   let currentYear = parseInt(today[0]);
 
   /*
