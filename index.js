@@ -69,10 +69,44 @@ class MortgageRepaymentCalculator extends HTMLElement {
         this.shadowRoot.getElementById("mortgageTerm").value = e.target.innerText;
       });
     });
+
+    const btnEdit = this.shadowRoot.getElementById("btnEdit");
+
+    const btnNavBalance = this.shadowRoot.getElementById("btnNavBalance");
+    const btnNavPayments = this.shadowRoot.getElementById("btnNavPayments");
+
+    const chartBalance = this.shadowRoot.getElementById("chartBalance");
+    const chartPayments = this.shadowRoot.getElementById("chartPayments");
+
+    btnNavBalance.addEventListener("click", () => {
+      btnNavBalance.classList.add("active");
+      btnNavPayments.classList.remove("active");
+
+      chartBalance.style.display = "block";
+      chartPayments.style.display = "none";
+    });
+
+    btnNavPayments.addEventListener("click", () => {
+      btnNavPayments.classList.add("active");
+      btnNavBalance.classList.remove("active");
+
+      chartPayments.style.display = "block";
+      chartBalance.style.display = "none";
+    });
+
+    btnEdit.addEventListener("click", () => {
+      const form = this.shadowRoot.getElementById("clientData");
+      const charts = this.shadowRoot.getElementById("charts");
+
+      charts.style.display = "none";
+      form.style.display = "flex"
+    });
   }
 
   onSubmit(e) {
     e.preventDefault();
+
+    const charts = this.shadowRoot.getElementById("charts");
 
     const form = this.shadowRoot.getElementById("clientData");
     const data = new FormData(form);
@@ -84,6 +118,9 @@ class MortgageRepaymentCalculator extends HTMLElement {
     localStorage.setItem("mrc-consent", data.get("consent"));
 
     this.generateGraph();
+
+    charts.style.display = "flex";
+    form.style.display = "none";
   }
 
   generateGraph() {
@@ -96,7 +133,10 @@ class MortgageRepaymentCalculator extends HTMLElement {
     const plotData = calcMortgageRepayment(housePrice, deposit, annualInterest, termYears);
 
     const chartContainerBalance = this.shadowRoot.getElementById("chartBalance");
-    const chartBalance = LightweightCharts.createChart(chartContainerBalance);
+
+    const chartBalance = LightweightCharts.createChart(chartContainerBalance, {
+      autoSize: true,
+    });
 
     const formatPrice = Intl.NumberFormat("en-GB", {
       style: "currency",
@@ -136,7 +176,10 @@ class MortgageRepaymentCalculator extends HTMLElement {
     chartBalance.timeScale().fitContent();
 
     const chartContainerPayments = this.shadowRoot.getElementById("chartPayments");
-    const chartPayments = LightweightCharts.createChart(chartContainerPayments);
+
+    const chartPayments = LightweightCharts.createChart(chartContainerPayments, {
+      autoSize: true
+    });
 
     chartPayments.applyOptions({
       localization: {
