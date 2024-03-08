@@ -1,11 +1,12 @@
 import calcMortgageRepayment from "./libs/calcMortgagePayment.js";
+import config from "./config.js";
 
 let htmlTemplate = `<template>Failed to load component</template>`;
 
 const parser = new DOMParser();
 
 try {
-  const req = await fetch("template.html");
+  const req = await fetch("./component/template.html");
   const html = await req.text();
 
   htmlTemplate = parser.parseFromString(html, 'text/html').querySelector('template');
@@ -37,6 +38,21 @@ class MortgageRepaymentCalculator extends HTMLElement {
   }
 
   connectedCallback() {
+    this.style.fontFamily = config.fontFamily;
+
+    this.style.setProperty("--color-accent", config.color.accent);
+    this.style.setProperty("--color-outline", config.color.outline);
+    this.style.setProperty("--color-onSurface", config.color.onSurface);
+    this.style.setProperty("--color-onSurfaceVariant", config.color.onSurfaceVariant);
+
+    this.style.setProperty("--color-text-primary", config.color.text.primary);
+    this.style.setProperty("--color-text-secondary", config.color.text.secondary);
+
+    this.style.setProperty("--color-text-btn-primary", config.color.text.btn.primary);
+    this.style.setProperty("--color-text-btn-secondary", config.color.text.btn.secondary);
+
+    this.style.setProperty("--radius", config.radius);
+
     const form = this.shadowRoot.getElementById("clientData");
 
     form.addEventListener("submit", (e) => {
