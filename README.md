@@ -2,6 +2,8 @@
 
 This is a web component widget for developers to embed on their websites if they want to provide users with a new feature to calculate mortgage repayments.
 
+![Mockup showcasing widget within website skeleton layout on the side.](./assets/mock.png "Mock of example")
+
 ## Developers
 
 ### How do I begin adding this to my website?
@@ -32,6 +34,9 @@ This component has one external dependency, which is a `45 KB` library [Lightwei
 ```
 
 ### Configuration & Styling
+You can customise the widget to align better with your website style.
+
+See `config.js` to edit colors, radius, and fonts.
 
 ## Why is this a web component?
 
