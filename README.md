@@ -2,7 +2,7 @@
 
 This is a web component widget for developers to embed on their websites if they want to provide users with a new feature to calculate mortgage repayments.
 
-![Mockup showcasing widget within website skeleton layout on the side.](./assets/mock.png "Mock of example")
+![Mockup showcasing widget within website skeleton layout on the side.](./mock.png "Mock of example")
 
 ## Developers
 
