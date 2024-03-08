@@ -48,6 +48,8 @@ class MortgageRepaymentCalculator extends HTMLElement {
     this.style.setProperty("--color-text-primary", config.color.text.primary);
     this.style.setProperty("--color-text-secondary", config.color.text.secondary);
 
+    this.style.setProperty("--color-btn-secondary", config.color.btn.secondary);
+
     this.style.setProperty("--color-text-btn-primary", config.color.text.btn.primary);
     this.style.setProperty("--color-text-btn-secondary", config.color.text.btn.secondary);
 
