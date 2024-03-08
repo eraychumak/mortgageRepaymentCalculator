@@ -64,14 +64,15 @@
   </form>
   <section id="charts" class="hide">
     <nav>
-      <button>Balance</button>
-      <button>Payments</button>
+      <button id="btnNavBalance" class="active">Balance</button>
+      <button id="btnNavPayments">Payments</button>
     </nav>
     <article id="chartBalance" class="chart">
     </article>
     <article id="chartPayments" class="chart">
     </article>
-    <button>Edit my mortgage</button>
-    <button>Print graph</button>
+    <section class="actions">
+      <button id="btnEdit" class="btnSecondary">Edit my mortgage</button>
+    </section>
   </section>
 </template>
