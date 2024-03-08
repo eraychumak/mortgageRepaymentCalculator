@@ -37,41 +37,112 @@ class MortgageRepaymentCalculator extends HTMLElement {
     shadow.append(htmlTemplate.content.cloneNode(true));
   }
 
+  /**
+   * Setup component when used/added in document
+   */
   connectedCallback() {
+    this.setupStyles();
+    this.setupForm();
+    this.setupBtnQuickSelect();
+    this.setupBtnEdit();
+    this.setupNav();
+  }
+
+  // ? The methods below are custom and are not lifecycle methods part of the HTMLElement.
+
+  /**
+   * Apply config values to component stylesheet
+   * using CSS variables.
+   */
+  setupStyles() {
     this.style.fontFamily = config.fontFamily;
 
     this.style.setProperty("--color-accent", config.color.accent);
     this.style.setProperty("--color-outline", config.color.outline);
     this.style.setProperty("--color-onSurface", config.color.onSurface);
     this.style.setProperty("--color-onSurfaceVariant", config.color.onSurfaceVariant);
-
     this.style.setProperty("--color-text-primary", config.color.text.primary);
     this.style.setProperty("--color-text-secondary", config.color.text.secondary);
-
     this.style.setProperty("--color-btn-secondary", config.color.btn.secondary);
-
     this.style.setProperty("--color-text-btn-primary", config.color.text.btn.primary);
     this.style.setProperty("--color-text-btn-secondary", config.color.text.btn.secondary);
 
     this.style.setProperty("--radius", config.radius);
+  }
 
+  /**
+   * Setup a listener for form submission.
+   */
+  setupForm() {
     const form = this.shadowRoot.getElementById("clientData");
 
     form.addEventListener("submit", (e) => {
-      this.onSubmit(e)
-    });
+      e.preventDefault();
 
+      const charts = this.shadowRoot.getElementById("charts");
+
+      const form = this.shadowRoot.getElementById("clientData");
+      const data = new FormData(form);
+
+      localStorage.setItem("mrc-housePrice", data.get("housePrice"));
+      localStorage.setItem("mrc-deposit", data.get("deposit"));
+      localStorage.setItem("mrc-interestRate", data.get("interestRate"));
+      localStorage.setItem("mrc-mortgageTerm", data.get("mortgageTerm"));
+      localStorage.setItem("mrc-consent", data.get("consent"));
+
+      this.generateGraph();
+
+      charts.style.display = "flex";
+      form.style.display = "none";
+    });
+  }
+
+  /**
+   * Iterate over quick select buttons for mortgage
+   * term and setup a listener for each to update the
+   * mortgage term input field.
+   */
+  setupBtnQuickSelect() {
     const quickSelectBtns = this.shadowRoot.querySelectorAll(".btnUpdateMortgageTerm");
+    const inputMortgageTerm = this.shadowRoot.getElementById("mortgageTerm");
 
     quickSelectBtns.forEach(btn => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
-        this.shadowRoot.getElementById("mortgageTerm").value = e.target.innerText;
+        inputMortgageTerm.value = e.target.innerText;
       });
     });
+  }
 
+  /**
+   * Handle logic for hiding graphs and show
+   * form to the user.
+   */
+  setupBtnEdit() {
     const btnEdit = this.shadowRoot.getElementById("btnEdit");
 
+    btnEdit.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const form = this.shadowRoot.getElementById("clientData");
+      const charts = this.shadowRoot.getElementById("charts");
+
+      charts.style.display = "none";
+      form.style.display = "flex"
+
+      const chartBalance = this.shadowRoot.getElementById("chartBalance");
+      const chartPayments = this.shadowRoot.getElementById("chartPayments");
+
+      chartBalance.innerHTML = "";
+      chartPayments.innerHTML = "";
+    });
+  }
+
+  /**
+   * Handle logic for switching between the
+   * balance and payments graph.
+   */
+  setupNav() {
     const btnNavBalance = this.shadowRoot.getElementById("btnNavBalance");
     const btnNavPayments = this.shadowRoot.getElementById("btnNavPayments");
 
@@ -93,42 +164,12 @@ class MortgageRepaymentCalculator extends HTMLElement {
       chartPayments.style.display = "block";
       chartBalance.style.display = "none";
     });
-
-    btnEdit.addEventListener("click", () => {
-      const form = this.shadowRoot.getElementById("clientData");
-      const charts = this.shadowRoot.getElementById("charts");
-
-      charts.style.display = "none";
-      form.style.display = "flex"
-
-      const chartBalance = this.shadowRoot.getElementById("chartBalance");
-      const chartPayments = this.shadowRoot.getElementById("chartPayments");
-
-      chartBalance.innerHTML = "";
-      chartPayments.innerHTML = "";
-    });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-
-    const charts = this.shadowRoot.getElementById("charts");
-
-    const form = this.shadowRoot.getElementById("clientData");
-    const data = new FormData(form);
-
-    localStorage.setItem("mrc-housePrice", data.get("housePrice"));
-    localStorage.setItem("mrc-deposit", data.get("deposit"));
-    localStorage.setItem("mrc-interestRate", data.get("interestRate"));
-    localStorage.setItem("mrc-mortgageTerm", data.get("mortgageTerm"));
-    localStorage.setItem("mrc-consent", data.get("consent"));
-
-    this.generateGraph();
-
-    charts.style.display = "flex";
-    form.style.display = "none";
-  }
-
+  /**
+   * Generate balance and payments graphs and
+   * show them to the user.
+   */
   generateGraph() {
     const housePrice = parseFloat(localStorage.getItem("mrc-housePrice"));
     const deposit = parseFloat(localStorage.getItem("mrc-deposit"));
