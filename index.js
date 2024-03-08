@@ -100,6 +100,12 @@ class MortgageRepaymentCalculator extends HTMLElement {
 
       charts.style.display = "none";
       form.style.display = "flex"
+
+      const chartBalance = this.shadowRoot.getElementById("chartBalance");
+      const chartPayments = this.shadowRoot.getElementById("chartPayments");
+
+      chartBalance.innerHTML = "";
+      chartPayments.innerHTML = "";
     });
   }
 
