@@ -13,8 +13,7 @@ called [Lightweight Charts](https://www.tradingview.com/lightweight-charts/).
 
 Before using the web component, please ensure you load
 the [Lightweight Charts](https://www.tradingview.com/lightweight-charts/) dependency
-either through a [CDN](https://tradingview.github.io/lightweight-charts/tutorials/customization/creating-a-chart) or
-as an [NPM dependency](https://www.npmjs.com/package/lightweight-charts).
+through a [CDN](https://tradingview.github.io/lightweight-charts/tutorials/customization/creating-a-chart) as the web component does not import it explicitly and assumes its namespace exists.
 
 ### Examples (buildless)
 
