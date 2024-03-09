@@ -106,7 +106,31 @@ export default MyComponent;
 ### Configuration & Styling
 You can customise the component to align better with your website style.
 
-See [config.js](/dist/config.js) file to edit colors, radius, and fonts.
+```html
+<!-- give it an id -->
+<mortgage-repayment-calculator id="mrc"></mortgage-repayment-calculator>
+
+<script>
+  const mrc = document.getElementById("mrc");
+  mrc.style.setProperty("--radius", "2px");
+</script>
+```
+
+#### All properties that you can change
+```css
+:host {
+  --color-accent: "#f16e51";
+  --color-outline: "#465ec3";
+  --color-onSurface: "#edeff9";
+  --color-onSurfaceVariant: "#dadff3";
+  --color-text-primary: "#000";
+  --color-text-secondary: "#444";
+  --color-btn-secondary: "#edeff9";
+  --color-text-btn-primary: "#fff";
+  --color-text-btn-secondary: "#000";
+  --radius: ".5rem";
+}
+```
 
 ## Why is this a web component?
 
