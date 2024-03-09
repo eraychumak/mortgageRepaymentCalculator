@@ -14,7 +14,15 @@
           </span>
         </label>
         <p class="symbol">&pound;</p>
-        <input id="housePrice" name="housePrice" type="text" required value="175000"/>
+        <input
+          id="housePrice"
+          name="housePrice"
+          placeholder="175,000"
+          type="number"
+          step="any"
+          min="0"
+          required
+        />
       </section>
       <section class="inputField symbolLeft">
         <label for="deposit">
@@ -24,7 +32,14 @@
           </span>
         </label>
         <p class="symbol">&pound;</p>
-        <input id="deposit" name="deposit" type="text" required value="30000"/>
+        <input
+          id="deposit"
+          name="deposit"
+          placeholder="30,000"
+          type="number"
+          min="0"
+          required
+        />
       </section>
       <section class="inputField symbolRight">
         <label for="interestRate">
@@ -34,7 +49,15 @@
           </span>
         </label>
         <p class="symbol">&percnt;</p>
-        <input id="interestRate" name="interestRate" type="text" required value="4.125"/>
+        <input
+          id="interestRate"
+          name="interestRate"
+          placeholder="4.82"
+          type="number"
+          step="any"
+          min="0"
+          required
+        />
       </section>
     </section>
     <section class="mortgageTermField">
@@ -52,12 +75,20 @@
         <button class="btnUpdateMortgageTerm">40</button>
         <section class="inputField symbolRight">
           <p class="symbol">years</p>
-          <input id="mortgageTerm" name="mortgageTerm" type="text" required value="30"/>
+          <input
+            id="mortgageTerm"
+            name="mortgageTerm"
+            placeholder="35"
+            type="number"
+            step="1"
+            min="1"
+            required
+          />
         </section>
       </section>
     </section>
     <label for="consent" class="consentField">
-      <input id="consent" name="consent" type="checkbox" required checked/>
+      <input id="consent" name="consent" type="checkbox" required/>
       I consent to use this data for calculating my repayment.
     </label>
     <button class="btnPrimary" type="submit">Calculate</button>
