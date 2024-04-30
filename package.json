@@ -15,5 +15,12 @@
     "custom element"
   ],
   "author": "Eray Chumak",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "test": "web-test-runner \"test/**/*.test.js\" --node-resolve"
+  },
+  "devDependencies": {
+    "@esm-bundle/chai": "^4.3.4-fix.0",
+    "@web/test-runner": "^0.18.1"
+  }
 }
