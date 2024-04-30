@@ -1,5 +1,7 @@
 import "./typedefs.js";
 
+import { toPence, toPounds } from "./utils.js";
+
 /**
  * Calculates mortgage repayment plan and
  * returns data for plotting on a graph
@@ -12,8 +14,8 @@ import "./typedefs.js";
  * @returns {PaymentPlan} The payment plan to be plotted on a graph
  */
 function calcMortgageRepayment(housePrice, deposit, interestAnnual, mortgageTerm) {
-  const housePricePennies = Math.trunc(housePrice * 100);
-  const depositPennies = Math.trunc(deposit * 100);
+  const housePricePennies = toPence(housePrice);
+  const depositPennies = toPence(deposit);
 
   const termYears = mortgageTerm;
   const termMonths = termYears * 12;
@@ -24,8 +26,8 @@ function calcMortgageRepayment(housePrice, deposit, interestAnnual, mortgageTerm
   const monthlyPaymentPennies = Math.trunc(balancePennies / termMonths);
 
   const plotData = {
-    startingBalance: balancePennies / 100,
-    principalMonthlyPayment: monthlyPaymentPennies / 100,
+    startingBalance: toPounds(balancePennies),
+    principalMonthlyPayment: toPounds(monthlyPaymentPennies),
     totalInterestPaid: 0,
     months: []
   };
@@ -55,17 +57,17 @@ function calcMortgageRepayment(housePrice, deposit, interestAnnual, mortgageTerm
     const currentMonth = {
       month: i,
       time: `${currentYear}-${monthNum}-${today[2]}`,
-      interestPaid: totalInterestPaidPennies / 100,
-      balance: balancePennies / 100,
-      principal: monthlyPaymentPennies / 100,
-      interest: interestThisMonthPennies / 100,
-      paymentTotal: (monthlyPaymentPennies + interestThisMonthPennies) / 100
+      interestPaid: toPounds(totalInterestPaidPennies),
+      balance: toPounds(balancePennies),
+      principal: toPounds(monthlyPaymentPennies),
+      interest: toPounds(interestThisMonthPennies),
+      paymentTotal: toPounds(monthlyPaymentPennies + interestThisMonthPennies)
     }
 
     // last month, principal payment should be the remaining balance
     if (i === termMonths - 1) {
-      currentMonth.principal = balancePennies / 100;
-      currentMonth.paymentTotal = (balancePennies + interestThisMonthPennies) / 100;
+      currentMonth.principal = toPounds(balancePennies);
+      currentMonth.paymentTotal = toPounds(balancePennies + interestThisMonthPennies);
     }
 
     // mortgage finished
